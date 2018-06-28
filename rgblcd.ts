@@ -1,18 +1,29 @@
 /*
- *	
- */
-//% color=#0fbc11 icon="\uf001" block="rgblcd"
+*	
+*/
+//% color=#0fbc11 icon="\uf1ab" block="rgblcd"
 namespace rgblcd {
 
     let isnotinitialized = true
 
+    //every line gets its own buffer
     let row0 = ""
     let row1 = ""
-    let row0Speed = 300
-    let row1Speed = 300
+
+    //every line gets its own speed
+    let row0Speed = 0
+    let row1Speed = 0
+
+    //prevents the flooding of the lcd
+    //only write new text 
     let rowWritten = true
+
+    //a poormans semaphore
     let lcdUsed = false
 
+    //syncronous writing of row0
+    //if the string in row0 is greater than 16 characters(the display with) the screen is scrolled
+    //if row0 is lower than 16 the screen will be written only with the new incoming string
     control.inBackground(() => {
         let pos0 = 0
         init()
@@ -22,7 +33,7 @@ namespace rgblcd {
             basic.pause(1)
             lcdUsed = true
             if (row0.length > 16) {
-                if (pos0 == 0) {
+                if (pos0 == 1) {
                     basic.pause(2000)
                 }
                 setCursor(0, 0)
@@ -54,8 +65,7 @@ namespace rgblcd {
             basic.pause(1)
             lcdUsed = true
             if (row1.length > 16) {
-
-                if (pos1 == 0) {
+                if (pos1 == 1) {
                     basic.pause(2000)
                 }
                 setCursor(0, 1)
@@ -87,7 +97,7 @@ namespace rgblcd {
     //% weight=87 blockGap=8
     //% block="write | %str | to | row | %row | with speed | %speed | ms" 
     //% blockId=write_String
-    //% icon="\uf1ec"
+    //% icon="\uf1ab"
     export function writeString(str: string, row: number, speed: number) {
 
         if (row == 0) {
@@ -125,39 +135,16 @@ namespace rgblcd {
             basic.pause(2)
             setLCDCmd(Command.LCD_ENTRYLEFT | Command.LCD_ENTRYSHIFTDECREMENT)
         }
-
         isnotinitialized = false
     }
-
-    // ############    LCD Ansteuerung    ############
-    // This will 'right justify' text from the cursor
-
 
     function setLCDCmd(cmd: number) {
         pins.i2cWriteNumber(0x3E, 0x80 << 8 | cmd, NumberFormat.Int16BE)
     }
 
-    function setLCDReg(reg: number, value: number) {
-        pins.i2cWriteNumber(0x3E, reg << 8 | value, NumberFormat.Int16BE)
-    }
-
-    function write(value: number) {
-        pins.i2cWriteNumber(0x3E, 0x40 << 8 | value, NumberFormat.Int16BE)
-    }
-
     function setCursor(col: number, row: number) {
         col = (row == 0 ? col | 0x80 : col | 0xc0);
         setLCDCmd(col)
-    }
-
-    function returnHome() {
-        setLCDCmd(Command.LCD_RETURNHOME)
-        basic.pause(2)
-    }
-
-    export function clear() {
-        setLCDCmd(Command.LCD_CLEARDISPLAY)
-        basic.pause(2)
     }
 
     function writeLCD(str: string) {
@@ -170,47 +157,6 @@ namespace rgblcd {
         pins.i2cWriteBuffer(0x3E, buf)
     }
 
-
-
-    // ############    Hintergrund Beleuchtung
-    // ############
-
-    export function testRGB() {
-
-        let red = 0
-        let blue = 0
-        let green = 0
-
-        while (true) {
-            if (red < 255) {
-                red += 1
-                setRed(red)
-                setGreen(0)
-                setBlue(0)
-            } else {
-                if (blue < 255) {
-                    blue += 1
-                    setBlue(blue)
-                    setRed(0)
-                    setGreen(0)
-                } else {
-                    if (green < 255) {
-                        green += 1
-                        setGreen(green)
-                        setRed(0)
-                        setBlue(0)
-                    } else {
-                        setRed(0)
-                        setGreen(0)
-                        setBlue(0)
-                        red = blue = green = 0
-                        break
-                    }
-                }
-            }
-        }
-    }
-
     /**
      * sets the red backgroung color
      * @param r red color to be set
@@ -218,12 +164,17 @@ namespace rgblcd {
     //% weight=87 blockGap=8
     //% block="set red to | %r" 
     //% blockId=set_red
-    //% icon="\uf1ec"
+    //% icon="\uf1ab"
     export function setRed(r: number) {
+        while (lcdUsed) {
+        }
+        basic.pause(1)
+        lcdUsed = true
         setRGBReg(Command.REG_MODE1, 0)
         setRGBReg(Command.REG_MODE2, 0)
         setRGBReg(Command.REG_OUTPUT, 0xAA)
         setRGBReg(4, r)
+        lcdUsed = false
     }
 
     /**
@@ -233,12 +184,17 @@ namespace rgblcd {
     //% weight=87 blockGap=8
     //% block="set green to | %g" 
     //% blockId=set_green
-    //% icon="\uf1ec"
+    //% icon="\uf1ab"
     export function setGreen(g: number) {
+        while (lcdUsed) {
+        }
+        basic.pause(1)
+        lcdUsed = true
         setRGBReg(Command.REG_MODE1, 0)
         setRGBReg(Command.REG_MODE2, 0)
         setRGBReg(Command.REG_OUTPUT, 0xAA)
         setRGBReg(3, g)
+        lcdUsed = false
     }
 
     /**
@@ -248,12 +204,17 @@ namespace rgblcd {
     //% weight=87 blockGap=8
     //% block="set blue to | %b"
     //% blockId=set_blue
-    //% icon="\uf1ec"
+    //% icon="\uf1ab"
     export function setBlue(b: number) {
+        while (lcdUsed) {
+        }
+        basic.pause(1)
+        lcdUsed = true
         setRGBReg(Command.REG_MODE1, 0)
         setRGBReg(Command.REG_MODE2, 0)
         setRGBReg(Command.REG_OUTPUT, 0xAA)
         setRGBReg(2, b)
+        lcdUsed = false
     }
 
     /**
@@ -265,22 +226,25 @@ namespace rgblcd {
     //% weight=87 blockGap=8
     //% block="set RGB to | red |  %r | green |  %g | blue |  %b"
     //% blockId=set_rgb
-    //% icon="\uf1ec"
+    //% icon="\uf1ab"
     export function setRGB(r: number, g: number, b: number) {
+        while (lcdUsed) {
+        }
+        basic.pause(1)
+        lcdUsed = true
         setRGBReg(Command.REG_MODE1, 0)
         setRGBReg(Command.REG_MODE2, 0)
         setRGBReg(Command.REG_OUTPUT, 0xAA)
         setRGBReg(Command.REG_RED, r)
         setRGBReg(Command.REG_GREEN, g)
         setRGBReg(Command.REG_BLUE, b)
+        lcdUsed = false
     }
 
-    export function setRGBReg(reg: number, value: number) {
+    function setRGBReg(reg: number, value: number) {
         pins.i2cWriteNumber(0x62, reg << 8 | value, NumberFormat.Int16BE)
     }
-
 }
-
 
 enum Command {
     LCD_ADDRESS = 0x3E,
