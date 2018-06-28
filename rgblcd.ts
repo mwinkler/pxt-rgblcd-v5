@@ -2,7 +2,7 @@
  *	
  */
 //% color=#0fbc11 icon="\uf001" block="rgblcd"
-namespace custom /*rgblcd*/ {
+namespace rgblcd /*rgblcd*/ {
 
     let isnotinitialized = true
 
