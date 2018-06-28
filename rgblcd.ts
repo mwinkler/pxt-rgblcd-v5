@@ -2,7 +2,7 @@
  *	
  */
 //% color=#0fbc11 icon="\uf001" block="rgblcd"
-namespace rgblcd /*rgblcd*/ {
+namespace rgblcd {
 
     let isnotinitialized = true
 
@@ -22,14 +22,17 @@ namespace rgblcd /*rgblcd*/ {
             basic.pause(1)
             lcdUsed = true
             if (row0.length > 16) {
-                if ((pos0 == (row0.length - 15)) || (pos0 == 0)) {
-                    pos0 = 0
+                if (pos0 == 0) {
                     basic.pause(2000)
                 }
                 setCursor(0, 0)
                 writeLCD(row0.substr(pos0, 16))
                 basic.pause(row0Speed)
                 pos0 += 1
+                if (pos0 == (row0.length - 15)) {
+                    pos0 = 0
+                    basic.pause(2000)
+                }
             } else {
                 if (rowWritten) {
                     clearrow0()
@@ -51,15 +54,18 @@ namespace rgblcd /*rgblcd*/ {
             basic.pause(1)
             lcdUsed = true
             if (row1.length > 16) {
-                if ((pos1 == (row1.length - 15)) || (pos1 == 0)) {
-                    pos1 = 0
+
+                if (pos1 == 0) {
                     basic.pause(2000)
                 }
                 setCursor(0, 1)
                 writeLCD(row1.substr(pos1, 16))
                 basic.pause(row1Speed)
                 pos1 += 1
-
+                if (pos1 == (row1.length - 15)) {
+                    pos1 = 0
+                    basic.pause(2000)
+                }
             } else {
                 if (rowWritten) {
                     clearrow1()
