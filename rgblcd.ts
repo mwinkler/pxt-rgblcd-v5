@@ -16,7 +16,8 @@ namespace rgblcd {
 
     //prevents the flooding of the lcd
     //only write new text 
-    let rowWritten = true
+    let row0Written = true
+    let row1Written = true
 
     //a poormans semaphore
     let lcdUsed = false
@@ -24,6 +25,7 @@ namespace rgblcd {
     //syncronous writing of row0
     //if the string in row0 is greater than 16 characters(the display with) the screen is scrolled
     //if row0 is lower than 16 the screen will be written only with the new incoming string
+
     control.inBackground(() => {
         let pos0 = 0
         init()
@@ -34,7 +36,7 @@ namespace rgblcd {
             lcdUsed = true
             if (row0.length > 16) {
                 if (pos0 == 1) {
-                    basic.pause(2000)
+                    basic.pause(1000)
                 }
                 setCursor(0, 0)
                 writeLCD(row0.substr(pos0, 16))
@@ -42,17 +44,18 @@ namespace rgblcd {
                 pos0 += 1
                 if (pos0 == (row0.length - 15)) {
                     pos0 = 0
-                    basic.pause(2000)
+                    basic.pause(1000)
                 }
             } else {
-                if (rowWritten) {
+                if (row0Written) {
                     clearrow0()
                     setCursor(0, 0)
                     writeLCD(row0)
-                    rowWritten = false
+                    row0Written = false
                 }
             }
             lcdUsed = false
+
         }
     })
 
@@ -66,7 +69,7 @@ namespace rgblcd {
             lcdUsed = true
             if (row1.length > 16) {
                 if (pos1 == 1) {
-                    basic.pause(2000)
+                    basic.pause(1000)
                 }
                 setCursor(0, 1)
                 writeLCD(row1.substr(pos1, 16))
@@ -74,19 +77,29 @@ namespace rgblcd {
                 pos1 += 1
                 if (pos1 == (row1.length - 15)) {
                     pos1 = 0
-                    basic.pause(2000)
+                    basic.pause(1000)
                 }
             } else {
-                if (rowWritten) {
+                if (row1Written) {
                     clearrow1()
                     setCursor(0, 1)
                     writeLCD(row1)
-                    rowWritten = false
+                    row1Written = false
                 }
             }
             lcdUsed = false
+
         }
     })
+
+    function writeLCD(str: string) {
+        let buf = pins.createBuffer(str.length + 1)
+        buf[0] = 0x40
+        for (let index = 1; index <= str.length; index++) {
+            buf[index] = str.charCodeAt(index - 1)
+        }
+        pins.i2cWriteBuffer(0x3E, buf)
+    }
 
     /**
      * prints a string on the LCD display
@@ -103,18 +116,21 @@ namespace rgblcd {
         if (row == 0) {
             row0Speed = speed
             row0 = str
+            row0Written = true
         }
         if (row == 1) {
             row1Speed = speed
             row1 = str
+            row1Written = true
         }
-        rowWritten = true
+
     }
 
     function clearrow0() {
         setCursor(0, 0)
         writeLCD("                ")
     }
+
     function clearrow1() {
         setCursor(0, 1)
         writeLCD("                ")
@@ -147,15 +163,7 @@ namespace rgblcd {
         setLCDCmd(col)
     }
 
-    function writeLCD(str: string) {
 
-        let buf = pins.createBuffer(str.length + 1)
-        buf[0] = 0x40
-        for (let index = 1; index <= str.length; index++) {
-            buf[index] = str.charCodeAt(index - 1)
-        }
-        pins.i2cWriteBuffer(0x3E, buf)
-    }
 
     /**
      * sets the red backgroung color
@@ -166,15 +174,10 @@ namespace rgblcd {
     //% blockId=set_red
     //% icon="\uf1ab"
     export function setRed(r: number) {
-        while (lcdUsed) {
-        }
-        basic.pause(1)
-        lcdUsed = true
         setRGBReg(Command.REG_MODE1, 0)
         setRGBReg(Command.REG_MODE2, 0)
         setRGBReg(Command.REG_OUTPUT, 0xAA)
         setRGBReg(4, r)
-        lcdUsed = false
     }
 
     /**
@@ -186,15 +189,10 @@ namespace rgblcd {
     //% blockId=set_green
     //% icon="\uf1ab"
     export function setGreen(g: number) {
-        while (lcdUsed) {
-        }
-        basic.pause(1)
-        lcdUsed = true
         setRGBReg(Command.REG_MODE1, 0)
         setRGBReg(Command.REG_MODE2, 0)
         setRGBReg(Command.REG_OUTPUT, 0xAA)
         setRGBReg(3, g)
-        lcdUsed = false
     }
 
     /**
@@ -206,15 +204,10 @@ namespace rgblcd {
     //% blockId=set_blue
     //% icon="\uf1ab"
     export function setBlue(b: number) {
-        while (lcdUsed) {
-        }
-        basic.pause(1)
-        lcdUsed = true
         setRGBReg(Command.REG_MODE1, 0)
         setRGBReg(Command.REG_MODE2, 0)
         setRGBReg(Command.REG_OUTPUT, 0xAA)
         setRGBReg(2, b)
-        lcdUsed = false
     }
 
     /**
@@ -228,17 +221,12 @@ namespace rgblcd {
     //% blockId=set_rgb
     //% icon="\uf1ab"
     export function setRGB(r: number, g: number, b: number) {
-        while (lcdUsed) {
-        }
-        basic.pause(1)
-        lcdUsed = true
         setRGBReg(Command.REG_MODE1, 0)
         setRGBReg(Command.REG_MODE2, 0)
         setRGBReg(Command.REG_OUTPUT, 0xAA)
         setRGBReg(Command.REG_RED, r)
         setRGBReg(Command.REG_GREEN, g)
         setRGBReg(Command.REG_BLUE, b)
-        lcdUsed = false
     }
 
     function setRGBReg(reg: number, value: number) {
