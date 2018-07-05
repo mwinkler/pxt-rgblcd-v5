@@ -8,7 +8,9 @@
     },
     "files": [
         "README.md",
-        "rgblcd.ts"
+        "rgblcd.ts",
+		"_locales/de/rgblcd-strings.json",
+        "_locales/de/rgblcd-jsdoc-strings.json"
     ],
     "testFiles": [
         "test.ts"
