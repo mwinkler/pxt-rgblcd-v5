@@ -1,0 +1,7 @@
+{
+	"rgblcd.writeString|block": "Schreibe | %str | auf Zeile | %row | und scrolle mit | %speed | ms",
+	"rgblcd.setRed|block": "Setze rot auf | %r",
+	"rgblcd.setGreen|block": "Setze grün auf | %g",
+	"rgblcd.setBlue|block": "Setze blau auf | %b",
+	"rgblcd.setRGB|block": "Setze rot auf | %r | grün auf | %g | blau auf | %b"
+}
