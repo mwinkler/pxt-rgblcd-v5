@@ -3,5 +3,5 @@
 	"rgblcd.setRed": "Setzt die Intensität der roten Hintergrund LED",
 	"rgblcd.setGreen": "Setzt die Intensität der grünen Hintergrund LED",
 	"rgblcd.setBlue": "Setzt die Intensität der blauen Hintergrund LED",
-	"rgblcd.setRGB": "Setzt die Intensität aller farben des Hintergrunds mit einem mal",
+	"rgblcd.setRGB": "Setzt die Intensität aller farben des Hintergrunds mit einem mal"
 }
