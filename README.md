@@ -6,4 +6,4 @@ http://wiki.seeedstudio.com/Grove-LCD_RGB_Backlight/
 
 ## Supported target
 
-* for PXT-calliope
+* for PXT/calliope
