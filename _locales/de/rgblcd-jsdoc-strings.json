@@ -1,0 +1,7 @@
+{
+	"rgblcd.writeString": "Schreibt eine Zeichenfolge auf eine Zeile. Wenn die Zeichenfolge länder ist wie 16 Zeichen, so wird das Display mit der angegebenen Geschwindigkeit gescrollt",
+	"rgblcd.setRed": "Setzt die Intensität der roten Hintergrund LED",
+	"rgblcd.setGreen": "Setzt die Intensität der grünen Hintergrund LED",
+	"rgblcd.setBlue": "Setzt die Intensität der blauen Hintergrund LED",
+	"rgblcd.setRGB": "Setzt die Intensität aller farben des Hintergrunds mit einem mal",
+}
