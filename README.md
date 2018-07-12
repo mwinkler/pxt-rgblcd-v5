@@ -1,6 +1,6 @@
 ## rgblcd
 
-	Package for the RGB Lcd from Seeed Studio.
+	Package for the RGB-LCD Backlight V4.0 from Seeed Studio.
 
 http://wiki.seeedstudio.com/Grove-LCD_RGB_Backlight/
 
