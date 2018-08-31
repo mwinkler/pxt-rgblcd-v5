@@ -1,5 +1,5 @@
 {
-    "name": "RGB-LCD",
+    "name": "rgblcd",
     "version": "0.0.1",
     "description": "RGB-LCD package for the Seeed Studio Grove - LCD RGB Backlight",
     "license": "MIT",
