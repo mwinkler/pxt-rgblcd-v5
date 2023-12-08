@@ -1,7 +1,7 @@
 {
     "name": "rgblcd",
     "version": "0.0.1",
-    "description": "RGB-LCD package for the Seeed Studio Grove - LCD RGB Backlight",
+    "description": "RGB-LCD package for the Grove - LCD RGB Backlight (5V power required)",
     "license": "MIT",
     "dependencies": {
         "core": "*"
