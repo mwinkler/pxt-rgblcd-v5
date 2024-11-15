@@ -174,10 +174,10 @@ namespace rgblcd {
     //% blockId=set_red
     //% icon="\uf1ab"
     export function setRed(r: number) {
-        setRGBReg(Command.REG_MODE1, 0)
-        setRGBReg(Command.REG_MODE2, 0)
-        setRGBReg(Command.REG_OUTPUT, 0xAA)
-        setRGBReg(4, r)
+        // setRGBReg(Command.REG_MODE1, 0)
+        // setRGBReg(Command.REG_MODE2, 0)
+        // setRGBReg(Command.REG_OUTPUT, 0xAA)
+        setRGBReg(Command.REG_RED, r)
     }
 
     /**
@@ -189,10 +189,10 @@ namespace rgblcd {
     //% blockId=set_green
     //% icon="\uf1ab"
     export function setGreen(g: number) {
-        setRGBReg(Command.REG_MODE1, 0)
-        setRGBReg(Command.REG_MODE2, 0)
-        setRGBReg(Command.REG_OUTPUT, 0xAA)
-        setRGBReg(3, g)
+        // setRGBReg(Command.REG_MODE1, 0)
+        // setRGBReg(Command.REG_MODE2, 0)
+        // setRGBReg(Command.REG_OUTPUT, 0xAA)
+        setRGBReg(Command.REG_GREEN, g)
     }
 
     /**
@@ -204,10 +204,10 @@ namespace rgblcd {
     //% blockId=set_blue
     //% icon="\uf1ab"
     export function setBlue(b: number) {
-        setRGBReg(Command.REG_MODE1, 0)
-        setRGBReg(Command.REG_MODE2, 0)
-        setRGBReg(Command.REG_OUTPUT, 0xAA)
-        setRGBReg(2, b)
+        // setRGBReg(Command.REG_MODE1, 0)
+        // setRGBReg(Command.REG_MODE2, 0)
+        // setRGBReg(Command.REG_OUTPUT, 0xAA)
+        setRGBReg(Command.REG_BLUE, b)
     }
 
     /**
@@ -221,16 +221,17 @@ namespace rgblcd {
     //% blockId=set_rgb
     //% icon="\uf1ab"
     export function setRGB(r: number, g: number, b: number) {
-        setRGBReg(Command.REG_MODE1, 0)
-        setRGBReg(Command.REG_MODE2, 0)
-        setRGBReg(Command.REG_OUTPUT, 0xAA)
+        // setRGBReg(Command.REG_MODE1, 0)
+        // setRGBReg(Command.REG_MODE2, 0)
+        // setRGBReg(Command.REG_OUTPUT, 0xAA)
+        //setRGBReg(Command.REG_LEDENABLED, 0x02)
         setRGBReg(Command.REG_RED, r)
         setRGBReg(Command.REG_GREEN, g)
         setRGBReg(Command.REG_BLUE, b)
     }
 
     function setRGBReg(reg: number, value: number) {
-        pins.i2cWriteNumber(0x30, reg << 8 | value, NumberFormat.Int16BE)
+        pins.i2cWriteNumber(Command.RGB_ADDRESS, reg << 8 | value, NumberFormat.Int16BE)
     }
 }
 
@@ -239,11 +240,12 @@ enum Command {
     RGB_ADDRESS = 0x30,
 
     //Hintergrundfarben Adressen
-    REG_RED = 0x04,
-    REG_GREEN = 0x03,
-    REG_BLUE = 0x02,
+    REG_RED = 0x06,
+    REG_GREEN = 0x07,
+    REG_BLUE = 0x08,
 
     //Hintergrundfarben modus
+    REG_LEDENABLED = 0x04,
     REG_MODE1 = 0x00,
     REG_MODE2 = 0x01,
     REG_OUTPUT = 0x08,
