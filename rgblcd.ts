@@ -224,7 +224,7 @@ namespace rgblcd {
         // setRGBReg(Command.REG_MODE1, 0)
         // setRGBReg(Command.REG_MODE2, 0)
         // setRGBReg(Command.REG_OUTPUT, 0xAA)
-        //setRGBReg(Command.REG_LEDENABLED, 0x02)
+        setRGBReg(Command.REG_LEDENABLED, 0x02)
         setRGBReg(Command.REG_RED, r)
         setRGBReg(Command.REG_GREEN, g)
         setRGBReg(Command.REG_BLUE, b)
