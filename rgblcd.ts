@@ -230,13 +230,13 @@ namespace rgblcd {
     }
 
     function setRGBReg(reg: number, value: number) {
-        pins.i2cWriteNumber(0x62, reg << 8 | value, NumberFormat.Int16BE)
+        pins.i2cWriteNumber(0x30, reg << 8 | value, NumberFormat.Int16BE)
     }
 }
 
 enum Command {
     LCD_ADDRESS = 0x3E,
-    RGB_ADDRESS = 0x62,
+    RGB_ADDRESS = 0x30,
 
     //Hintergrundfarben Adressen
     REG_RED = 0x04,
