@@ -101,16 +101,8 @@ namespace rgblcd {
         pins.i2cWriteBuffer(0x3E, buf)
     }
 
-    /**
-     * prints a string on the LCD display
-     * @param str text to display
-     * @param row row to be written to
-     * @param speed speed of the scrolling text
-     */
-    //% weight=87 blockGap=8
     //% block="write | %str | to | row | %row | with speed | %speed | ms" 
     //% blockId=write_String
-    //% icon="\uf1ab"
     export function writeString(str: string, row: number, speed: number) {
 
         if (row == 0) {
@@ -163,57 +155,39 @@ namespace rgblcd {
         setLCDCmd(col)
     }
 
-
-
-    /**
-     * sets the red backgroung color
-     * @param r red color to be set
-     */
-    //% weight=87 blockGap=8
     //% block="set red to | %r" 
     //% blockId=set_red
-    //% icon="\uf1ab"
     export function setRed(r: number) {
         setRGBReg(Command.REG_LEDENABLED, 0x15)
         setRGBReg(Command.REG_RED, r)
     }
 
-    /**
-     * sets the green backgroung color
-     * @param g green color to be set
-     */
-    //% weight=87 blockGap=8
     //% block="set green to | %g" 
     //% blockId=set_green
-    //% icon="\uf1ab"
     export function setGreen(g: number) {
         setRGBReg(Command.REG_LEDENABLED, 0x15)
         setRGBReg(Command.REG_GREEN, g)
     }
 
-    /**
-     * sets the blue backgroung color
-     * @param b blue color to be set
-     */
-    //% weight=87 blockGap=8
     //% block="set blue to | %b"
     //% blockId=set_blue
-    //% icon="\uf1ab"
     export function setBlue(b: number) {
         setRGBReg(Command.REG_LEDENABLED, 0x15)
         setRGBReg(Command.REG_BLUE, b)
     }
 
-    /**
-     * sets all backgroung colors
-     * @param r red color to be set
-     * @param g green color to be set
-     * @param b blue color to be set
-     */
-    //% weight=87 blockGap=8
+    //% block="set RGB to %color"
+    //% blockId=set_rgb_color
+    //% color.shadow="CalliColorNumberPicker"  color.defl=0xff0000
+    export function setRGBColor(color: number) {
+        setRGBReg(Command.REG_LEDENABLED, 0x15)
+        setRGBReg(Command.REG_RED, (color & 0xff0000) >> 16)
+        setRGBReg(Command.REG_GREEN, (color & 0xff00) >> 8)
+        setRGBReg(Command.REG_BLUE, (color & 0xff))
+    }
+
     //% block="set RGB to | red |  %r | green |  %g | blue |  %b"
     //% blockId=set_rgb
-    //% icon="\uf1ab"
     export function setRGB(r: number, g: number, b: number) {
         setRGBReg(Command.REG_LEDENABLED, 0x15)
         setRGBReg(Command.REG_RED, r)
@@ -221,13 +195,8 @@ namespace rgblcd {
         setRGBReg(Command.REG_BLUE, b)
     }
 
-    /**
-     * turn RGB LCD off
-     */
-    //% weight=87 blockGap=8
     //% block="turn RGB LCD off"
     //% blockId=set_rgb_off
-    //% icon="\uf1ab"
     export function setRBGoff() {
         setRGBReg(Command.REG_LEDENABLED, 0x0)
     }
