@@ -204,6 +204,17 @@ namespace rgblcd {
     function setRGBReg(reg: number, value: number) {
         pins.i2cWriteNumber(Command.RGB_ADDRESS, reg << 8 | value, NumberFormat.Int16BE)
     }
+
+    //% blockId=CalliColorNumberPicker block="%value"
+    //% blockHidden=true
+    //% shim=TD_ID
+    //% value.fieldEditor="colornumber" value.fieldOptions.decompileLiterals=true
+    //% weight=150
+    //% value.fieldOptions.colours='["#ffffff","#ff0000","#ffaa00","#ffdc00","#ffff00","#eaff00","#8eff00","#4df243","#42b87f","#00ffdc","#00dcff","#00a3ff","#0087ff","#acb3f3","#e0acfe","#a300ff","#ea00ff","#ff00e3","#fdd3f8","#f1d07e","#a8b5f5","#C3C6D8", "#f3f2da","#727474", "#000000"]'
+    //% value.fieldOptions.columns=5 value.fieldOptions.className='rgbColorPicker'  
+    export function CalliColorNumberPicker(value: number) {
+        return value;
+    }
 }
 
 enum Command {
