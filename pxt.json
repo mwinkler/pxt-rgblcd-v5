@@ -1,7 +1,7 @@
 {
-    "name": "rgblcd",
+    "name": "rgblcdv5",
     "version": "0.0.1",
-    "description": "RGB-LCD package for the Grove - LCD RGB Backlight (5V power required)",
+    "description": "Grove - LCD RGB Backlight (v5)",
     "license": "MIT",
     "dependencies": {
         "core": "*"
@@ -9,7 +9,7 @@
     "files": [
         "README.md",
         "rgblcd.ts",
-	"_locales/de/rgblcd-strings.json",
+	    "_locales/de/rgblcd-strings.json",
         "_locales/de/rgblcd-jsdoc-strings.json"
     ],
     "testFiles": [
