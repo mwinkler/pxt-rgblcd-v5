@@ -177,6 +177,7 @@ namespace rgblcd {
         // setRGBReg(Command.REG_MODE1, 0)
         // setRGBReg(Command.REG_MODE2, 0)
         // setRGBReg(Command.REG_OUTPUT, 0xAA)
+        setRGBReg(Command.REG_LEDENABLED, 0x15)
         setRGBReg(Command.REG_RED, r)
     }
 
@@ -192,6 +193,7 @@ namespace rgblcd {
         // setRGBReg(Command.REG_MODE1, 0)
         // setRGBReg(Command.REG_MODE2, 0)
         // setRGBReg(Command.REG_OUTPUT, 0xAA)
+        setRGBReg(Command.REG_LEDENABLED, 0x15)
         setRGBReg(Command.REG_GREEN, g)
     }
 
@@ -207,6 +209,7 @@ namespace rgblcd {
         // setRGBReg(Command.REG_MODE1, 0)
         // setRGBReg(Command.REG_MODE2, 0)
         // setRGBReg(Command.REG_OUTPUT, 0xAA)
+        setRGBReg(Command.REG_LEDENABLED, 0x15)
         setRGBReg(Command.REG_BLUE, b)
     }
 
@@ -228,6 +231,17 @@ namespace rgblcd {
         setRGBReg(Command.REG_RED, r)
         setRGBReg(Command.REG_GREEN, g)
         setRGBReg(Command.REG_BLUE, b)
+    }
+
+    /**
+     * turn RGB LCD off
+     */
+    //% weight=87 blockGap=8
+    //% block="turn RGB LCD off"
+    //% blockId=set_rgb_off
+    //% icon="\uf1ab"
+    export function setRBGoff() {
+        setRGBReg(Command.REG_LEDENABLED, 0x0)
     }
 
     function setRGBReg(reg: number, value: number) {
